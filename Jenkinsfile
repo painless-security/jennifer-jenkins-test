@@ -7,6 +7,10 @@ pipeline {
           def data = readJSON file: 'test.json'
           def ver = data['3.11.0'].buster
           
+          println "ver.project = $ver.project"
+          println "ver.branch = $ver.branch"
+          println "ver.project/ver.branch = $ver.project/$ver.branch"
+          
           copyArtifacts(projectName: "$ver.project/$ver.branch",
                         selector: lastSuccessful())
         }
