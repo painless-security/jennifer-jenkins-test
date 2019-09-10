@@ -1,8 +1,8 @@
 {
-  "list": [
-    {"letter": "a", "number": "one"},
-    {"letter": "b", "number": "two"},
-    {"letter": "c", "number": "three"}
-  ]
+  "3.11.0": {
+    "buster": [
+      {"project": "shibboleth-idp", "branch": "jennifer/buster-jenkins"}
+    ]
+  }
 }
 

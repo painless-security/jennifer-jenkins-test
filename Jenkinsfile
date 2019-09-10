@@ -1,24 +1,15 @@
 pipeline {
   agent any
   stages {
-    stage('Read File') {
+    stage('Copy Artifacts') {
       steps {
         script {
           def data = readJSON file: 'test.json'
-          def myList = data['list']
+          def ver = data['3.11.0'].buster
+          
+          copyArtifacts(projectName: "$buster.project/$buster.branch",
+                        selector: lastSuccessful())
         }
-
-        echo "${myList[0].letter} = ${myList[0].number}"
-        echo "${myList[1].letter} = ${myList[1].number}"
-        echo "${myList[2].letter} = ${myList[2].number}"
-
-      }
-    }
-    stage('Output Stuff') {
-      steps {
-        echo "${myList[0].letter} = ${myList[0].number}"
-        echo "${myList[1].letter} = ${myList[1].number}"
-        echo "${myList[2].letter} = ${myList[2].number}"
       }
     }
   }
