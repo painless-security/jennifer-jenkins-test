@@ -1,6 +1,21 @@
 pipeline {
   agent any
+  
+  environment {
+    // Extract the portion of our project name after the slash
+    PSEC_SUBPROJECT_NAME = """${sh(
+      returnStdout: true,
+      script: 'echo \$JOB_NAME | sed s,[^/]*/,,'
+    )}"""
+  }
+
   stages {
+    stage('Echo stuff') {
+      steps {
+        echo "${env.PSEC_SUBPROJECT_NAME}"
+      }
+    }
+    
     stage('Read file') {
       steps {
         script {
