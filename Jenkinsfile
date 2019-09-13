@@ -22,6 +22,10 @@ pipeline {
           def data = readYaml file: 'test.yml'
 //          def data = readJSON file: 'test.json'
           ver = data['3.11.0'].buster
+          println "data['3.11.0']['buster']['project'] = ${data['3.11.0']['buster']['project']}"
+          println "data.cat = ${data.cat}"
+          println "data.dog = $data.dog"
+          println "data.frog = $data.frog"
         }
       }
     }
