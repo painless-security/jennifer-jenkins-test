@@ -19,7 +19,7 @@ pipeline {
     stage('Read file') {
       steps {
         script {
-          def data = readYAML file: 'test.yml'
+          def data = readYaml file: 'test.yml'
 //          def data = readJSON file: 'test.json'
           ver = data['3.11.0'].buster
         }
