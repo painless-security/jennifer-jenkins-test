@@ -1,0 +1,5 @@
+3.11.0:
+    buster: 
+      - "project": "shibboleth-idp"
+        "branch": "jennifer/buster-jenkins"
+

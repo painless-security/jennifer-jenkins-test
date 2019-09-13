@@ -19,7 +19,8 @@ pipeline {
     stage('Read file') {
       steps {
         script {
-          def data = readJSON file: 'test.json'
+          def data = readYAML file: 'test.yml'
+//          def data = readJSON file: 'test.json'
           ver = data['3.11.0'].buster
         }
       }
@@ -31,7 +32,7 @@ pipeline {
           println "ver.project[0] = ${ver.project[0]}"
           println "ver.branch = ${ver.branch[0]}"
           
-          copyArtifacts(projectName: "${ver.project[0]}/${ver.branch[0]}",
+          copyArtifacts(projectName: "${ver.project[0]}/${ver.branch[0].replaceAll('/', '%2F'}",
                         selector: lastSuccessful())
         }
       }
