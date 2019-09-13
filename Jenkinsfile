@@ -33,10 +33,9 @@ pipeline {
       steps {
         script {
           println "ver.project = ${ver.project}"
-          println "ver.project[0] = ${ver.project[0]}"
-          println "ver.branch = ${ver.branch[0]}"
+          println "ver.branch = ${ver.branch}"
           
-          copyArtifacts(projectName: "${ver.project[0]}/${ver.branch[0].replaceAll('/', '%2F')}",
+          copyArtifacts(projectName: "${ver.project}/${ver.branch.replaceAll('/', '%2F')}",
                         selector: lastSuccessful())
         }
       }
