@@ -29,6 +29,7 @@ pipeline {
     stage('Copy artifact') {
       steps {
         script {
+          println "ver['project'] = ${ver['project']}"
           println "ver.project[0] = ${ver.project[0]}"
           println "ver.branch = ${ver.branch[0]}"
           
