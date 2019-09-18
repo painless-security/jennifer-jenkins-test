@@ -1,5 +1,12 @@
 pipeline {
-  agent any
+  agent {
+    label 'deb-repository'
+  }
+  
+  parameters {
+    booleanParam('RELEASE', defaultValue: false, description: 'Build for release')
+    string(name: 'VERSION', defaultValue: 'v3.12.0', description: 'Version to build')
+  }
   
   environment {
     // Extract the portion of our project name after the slash
@@ -8,37 +15,44 @@ pipeline {
       script: 'echo \$JOB_NAME | sed s,[^/]*/,,'
     )}"""
   }
-
+  
   stages {
-    stage('Echo stuff') {
-      steps {
-        echo "${env.PSEC_SUBPROJECT_NAME}"
-      }
-    }
-    
-    stage('Read file') {
+    stage('Initialization') {
       steps {
         script {
-          def data = readYaml file: 'test.yml'
-//          def data = readJSON file: 'test.json'
-          ver = data['3.11.0'].buster[0]
-          println "data.cat = ${data.cat}"
-          println "data.dog = $data.dog"
-          println "data.frog = $data.frog"
+          // Read configuration
+          psecBuildConfig = readYaml file: 'config.yml'
         }
       }
     }
     
-    stage('Copy artifact') {
+    stage('Build repository') {
       steps {
         script {
-          println "ver.project = ${ver.project}"
-          println "ver.branch = ${ver.branch}"
-          
-          copyArtifacts(projectName: "${ver.project}/${ver.branch.replaceAll('/', '%2F')}",
-                        selector: lastSuccessful())
+          for (upstream in psecBuildConfig.upstream_projects) {
+            // Get specified branch or fall back to the branch of the
+            // current build, then replace '/' with the URL-ified equivalent.
+            String branch = upstream.get(
+                              'branch', env.BRANCH_NAME
+                            ).replaceAll('/', '%2F')
+
+            // Copy artifacts from the requested project/branch
+            copyArtifacts(
+              projectName: "${upstream.name}/${branch}",
+              target: 'incoming-debs/',
+              selector: lastSuccessful()
+            )
+          }
         }
       }
     }
   }
+  
+//  post {
+//   success {
+//      archiveArtifacts(
+//        artifacts: 'debian-repository-*.tgz'
+//      )
+//    }
+//  }
 }
