@@ -14,11 +14,12 @@ pipeline {
       returnStdout: true,
       script: 'echo \$JOB_NAME | sed s,[^/]*/,,'
     )}"""
+    UPSTREAMS = "eapol-test/jennifer%2Fjenkins, moonshot-ms-infrastructure/jennifer%2Fjenkins"
   }
   
   triggers {
     upstream(
-      upstreamProjects: "eapol-test/jennifer%2Fjenkins",
+      upstreamProjects: "${env.UPSTREAMS}",
       threshold: hudson.model.Result.SUCCESS
     )
   }
