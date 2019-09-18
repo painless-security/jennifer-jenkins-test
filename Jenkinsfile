@@ -6,6 +6,7 @@ pipeline {
   parameters {
     booleanParam(name: 'RELEASE', defaultValue: false, description: 'Build for release')
     string(name: 'VERSION', defaultValue: 'v3.12.0', description: 'Version to build')
+    string(name: 'UPSTREAMS', defaultValue: "eapol-test/jennifer%2Fjenkins, moonshot-ms-infrastructure/jennifer%2Fjenkins")
   }
   
   environment {
@@ -14,12 +15,11 @@ pipeline {
       returnStdout: true,
       script: 'echo \$JOB_NAME | sed s,[^/]*/,,'
     )}"""
-    UPSTREAMS = "eapol-test/jennifer%2Fjenkins, moonshot-ms-infrastructure/jennifer%2Fjenkins"
   }
   
   triggers {
     upstream(
-      upstreamProjects: "${env.UPSTREAMS}",
+      upstreamProjects: "${params.UPSTREAMS}",
       threshold: hudson.model.Result.SUCCESS
     )
   }
