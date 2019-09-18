@@ -1,3 +1,4 @@
+def psecUpstreams = "eapol-test/jennifer%2Fjenkins, moonshot-ms-infrastructure/jennifer%2Fjenkins"
 pipeline {
   agent {
     label 'deb-repository'
@@ -6,7 +7,6 @@ pipeline {
   parameters {
     booleanParam(name: 'RELEASE', defaultValue: false, description: 'Build for release')
     string(name: 'VERSION', defaultValue: 'v3.12.0', description: 'Version to build')
-    string(name: 'UPSTREAMS', defaultValue: "eapol-test/jennifer%2Fjenkins, moonshot-ms-infrastructure/jennifer%2Fjenkins")
   }
   
   environment {
@@ -19,7 +19,7 @@ pipeline {
   
   triggers {
     upstream(
-      upstreamProjects: "${params.UPSTREAMS}",
+      upstreamProjects: "${psecUpstreams}",
       threshold: hudson.model.Result.SUCCESS
     )
   }
