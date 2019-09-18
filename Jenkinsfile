@@ -16,6 +16,16 @@ pipeline {
     )}"""
   }
   
+  triggers {
+    upstream(
+      upstreamProjects: """${sh(
+        returnStdout: true,
+        script: 'echo eapol-test/jennifer%2Fjenkins'
+      )}""",
+      threshold: hudson.model.Result.SUCCESS
+    )
+  }
+  
   stages {
     stage('Initialization') {
       steps {
