@@ -4,7 +4,7 @@ pipeline {
   }
   
   parameters {
-    booleanParam('RELEASE', defaultValue: false, description: 'Build for release')
+    booleanParam(name: 'RELEASE', defaultValue: false, description: 'Build for release')
     string(name: 'VERSION', defaultValue: 'v3.12.0', description: 'Version to build')
   }
   
