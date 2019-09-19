@@ -15,11 +15,12 @@ pipeline {
       returnStdout: true,
       script: 'echo \$JOB_NAME | sed s,[^/]*/,,'
     )}"""
+    TEST='yep'
   }
   
   triggers {
     upstream(
-      upstreamProjects: "${psecUpstreams}",
+      upstreamProjects: "project-${env.TEST}",
       threshold: hudson.model.Result.SUCCESS
     )
   }
