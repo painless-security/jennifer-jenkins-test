@@ -20,7 +20,7 @@ pipeline {
   
   triggers {
     upstream(
-      upstreamProjects: "project-${env.TEST}",
+      upstreamProjects: "project-${env.BRANCH_NAME}",
       threshold: hudson.model.Result.SUCCESS
     )
   }
