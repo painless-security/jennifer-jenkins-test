@@ -20,7 +20,7 @@ pipeline {
   
   triggers {
     upstream(
-      upstreamProjects: "project-${env.BRANCH_NAME}",
+      upstreamProjects: "${\"project/${env.BRANCH_NAME}\".replaceAll('/','%2F')}",
       threshold: hudson.model.Result.SUCCESS
     )
   }
