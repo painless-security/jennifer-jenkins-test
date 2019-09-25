@@ -21,10 +21,11 @@ pipeline {
   triggers {
     upstream(
       upstreamProjects: """${
+        def branch=env.BRANCH_NAME.replaceAll('/', '%2F')
         [
-          "projectA/${env.BRANCH_NAME}",
-          "projectB/${env.BRANCH_NAME}"
-        ].join(',').replaceAll('/','%2F')
+          "projectA/${branch}",
+          "projectB/${branch}"
+        ].join(',')
       }""",
       threshold: hudson.model.Result.SUCCESS
     )
